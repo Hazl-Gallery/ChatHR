@@ -1,0 +1,76 @@
+About Stripe
+
+Stripe is a financial infrastructure platform for businesses. Millions
+
+of companies—from the world’s largest enterprises to the most ambitious
+
+startups—use Stripe to accept payments, grow their revenue, and
+
+accelerate new business opportunities. Our mission is to increase the
+
+GDP of the internet, and we have a staggering amount of work ahead. That
+
+means you have an unprecedented opportunity to put the global economy
+
+within everyone’s reach while doing the most important work of your
+
+career.
+
+About The Team
+
+At Stripe, we’re dedicated to helping millions of companies worldwide to
+
+find the financial products they need to grow their businesses. That’s
+
+why our Growth Data Science team creates intelligent data products and
+
+insights to help us deliver the right message to the right user at the
+
+right time. We collaborate with Marketing and Sales to influence the
+
+go-to-market strategy, boost product adoption, and increase user
+
+retention by making data-driven decisions at scale.
+
+What you’ll do
+
+We’re looking for a Data Scientist to partner with the Marketing team to
+
+improve the performance and target efficiency of marketing performance
+
+across channels (e.g. email, website, events, paid search) and across
+
+funnels (e.g. self-serve, sold), develop attribution models, and
+
+generate insights to inform data-driven go-to-market strategy.
+
+Responsibilities
+Apply statistical, machine learning and econometric models on large datasets to measure performance, and identify the causal impact of marketing campaigns.
+Develop attribution models, and generate insights into what campaigns and channels are most effective from the attribution model.
+Develop predictive lead scoring to identify the target audience for marketing and sales campaigns.
+Design, analyze, and interpret the results of experiments. Drive the collection of new data and the refinement of existing data sources.
+Partner closely with Marketing, Sales, Finance, Engineering and Product teams to identify and address the most impactful challenges with data and analyses.
+
+Who you are
+
+We’re looking for someone who meets the minimum requirements to be
+
+considered for the role. If you meet these requirements, you are
+
+encouraged to apply. The preferred qualifications are a bonus, not a
+
+requirement.
+
+Minimum Requirements
+6+ years of data science/quantitative modeling experience.
+A PhD or MS in a quantitative field (e.g., Statistics, Economics, Sciences, Engineering).
+Strong knowledge of statistics, machine learning, and experiment design.
+Proficiency in Python and SQL.
+Experience with data-distributed tools (Scalding, Spark, Hadoop, etc).
+A demonstrated ability to manage and deliver on multiple projects with a high attention to detail.
+Ability to communicate results clearly and a focus on driving impact.
+Experience working with cross-functional teams to deliver results.
+
+Preferred Qualifications
+Experience designing and developing statistical modeling or machine learning pipelines.
+Experience working with Marketing and/or Growth teams.

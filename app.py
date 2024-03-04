@@ -3,23 +3,55 @@ import streamlit as st
 import os
 from PyPDF2 import PdfReader
 from docx import Document
-import openai
-openai.api_key = os.getenv('OPENAI_API_KEY')
+from openai import OpenAI
+import json
 
 from io import StringIO
 
 st.set_page_config(
-    page_title= "ChatHR by HAZEL",
+    page_title= "ChatHR by HAZL",
     layout = "wide",
 )
 hide_st_style = """
             <style>
             #MainMenu {visibility: hidden;}
+            .stDeployButton {display:none;}
             footer {visibility: hidden;}
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
+
+API_KEYS_FILE = 'api_keys.json'
+
+def save_api_key(key_name, key_value):
+    if os.path.exists(API_KEYS_FILE):
+        with open(API_KEYS_FILE, 'r') as file:
+            keys = json.load(file)
+    else:
+        keys = {}
+    keys[key_name] = key_value
+    with open(API_KEYS_FILE, 'w') as file:
+        json.dump(keys, file)
+
+def load_api_keys():
+    if os.path.exists(API_KEYS_FILE):
+        with open(API_KEYS_FILE, 'r') as file:
+            keys = json.load(file)
+        return keys
+    return {}
+
+def delete_api_key(key_name):
+    if os.path.exists(API_KEYS_FILE):
+        with open(API_KEYS_FILE, 'r') as file:
+            keys = json.load(file)
+        # Check if the key exists and delete it
+        if key_name in keys:
+            del keys[key_name]
+            with open(API_KEYS_FILE, 'w') as file:
+                json.dump(keys, file)
+            return True
+    return False
 
 def read_pdf(file_path):
     reader = PdfReader(file_path)
@@ -46,30 +78,28 @@ def read_docx(file_path):
             combined_text += "\n" + paragraph.text
     return combined_text
 
-def chat(prompt):
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are a human resource assistant."},
-            {"role": "user", "content": prompt},
-        ],
-        n= 1,
-        temperature=1,
-
-    )
-    text = response['choices'][0]['message']['content']
+def get_chat_response(prompt, api_key):
+    client = OpenAI(api_key=api_key)
+    response = client.chat.completions.create(model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "You are a human resource assistant."},
+        {"role": "user", "content": prompt},
+    ],
+    n= 1,
+    temperature=1)
+    text = response.choices[0].message.content
     return text
 
 def main():
     
+    st.sidebar.header('About This App: ')
+
     st.sidebar.markdown('''
 
-        Powered by ChatGPT, ChatHR (Beta) can help you summarize 
+        Powered by ChatGPT, ChatHR helps you summarize 
         resumes, greatly shortening the lengthy candidate 
-        review process. Due to the token size limit of 
-        approximately 4000 words, we recommend starting with 
-        3 resumes and increasing the number accordingly.\n 
-        To help you get started, plesae download the sample 
+        review process. \n 
+        To get started, plesae download the sample 
         job description and resume files. 
 
     ''')
@@ -81,6 +111,32 @@ def main():
             data = file,
             file_name = 'samples.zip',
         ) 
+
+    st.sidebar.header('Your OpenAI API Key:')
+
+    keys = load_api_keys()
+    api_key_name = st.sidebar.selectbox("Existing API Key", list(keys.keys()))
+    new_key_name = st.sidebar.text_input("New Key Name")
+    new_key_value = st.sidebar.text_input("New Key Value", type="password")
+
+    if st.sidebar.button("Save New Key"):
+        if new_key_name and new_key_value:
+            save_api_key(new_key_name, new_key_value)
+            st.rerun()
+        else:
+            st.sidebar.error("Both Key Name and Value are required")
+
+    if st.sidebar.button("Delete Selected Key"):
+        if api_key_name:
+            delete_success = delete_api_key(api_key_name)
+            if delete_success:
+                st.sidebar.success(f"Key '{api_key_name}' deleted successfully.")
+                st.rerun()
+            else:
+                st.sidebar.error("Failed to delete the selected key.")
+        else:
+            st.sidebar.error("Please select a key to delete.")
+
 
     st.title('ChatHR - Your Virtual HR Assistant')
 
@@ -151,14 +207,18 @@ def main():
         # # # print(prompt)
 
         # st.write('================================================================')
-        res = chat(prompt)
-        print(res)
-        st.write(res)
+        if api_key_name:
+            res = get_chat_response(
+                prompt = prompt,
+                api_key= keys[api_key_name]    
+            )
+            print(res)
+            st.write(res)
+        else:
+            st.error('Please provide an OpenAI API Key')
+        
 
 if __name__ == "__main__":
 
-    try:
-        main()
-    except Exception as e:
-        print (e)
-        st.error(e)
+    main()
+
