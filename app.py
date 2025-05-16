@@ -80,7 +80,7 @@ def read_docx(file_path):
 
 def get_chat_response(prompt, api_key):
     client = OpenAI(api_key=api_key)
-    response = client.chat.completions.create(model="gpt-3.5-turbo",
+    response = client.chat.completions.create(model="gpt-4o-mini",
     messages=[
         {"role": "system", "content": "You are a human resource assistant."},
         {"role": "user", "content": prompt},
@@ -212,7 +212,6 @@ def main():
                 prompt = prompt,
                 api_key= keys[api_key_name]    
             )
-            print(res)
             st.write(res)
         else:
             st.error('Please provide an OpenAI API Key')
